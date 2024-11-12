@@ -23,7 +23,7 @@ export class SelectorPageComponent implements OnInit, OnDestroy{
   constructor(
     private fb: FormBuilder,
     private countriesService : CountriesService
-  ){}
+  ){};
   
   ngOnInit(): void {
     this.onReguionsChanged();
@@ -42,7 +42,7 @@ export class SelectorPageComponent implements OnInit, OnDestroy{
       )
       .subscribe( region => {
         this.countriesByReguion = region.sort((a, b) => a.name.localeCompare(b.name));
-        this.countriesByReguion = region
+        // this.countriesByReguion = region
       });
   };
 
@@ -57,7 +57,7 @@ export class SelectorPageComponent implements OnInit, OnDestroy{
       )
       .subscribe( country => {
         this.bordersByCountries = country.sort((a, b) => a.name.localeCompare(b.name));
-        this.bordersByCountries = country;
+        // this.bordersByCountries = country;
       });
   };
 
@@ -68,4 +68,4 @@ export class SelectorPageComponent implements OnInit, OnDestroy{
   };
 
 
-}
+};

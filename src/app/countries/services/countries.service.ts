@@ -17,7 +17,7 @@ export class CountriesService {
 
     constructor(
         private http : HttpClient
-    ) {}
+    ) {};
 
     get regions(): Region[] {
         return [...this._regions];
@@ -33,7 +33,7 @@ export class CountriesService {
                     cca3: country.cca3,
                     borders: country.borders ?? []
                 })))
-            )
+            );
     };
 
 
@@ -46,9 +46,8 @@ export class CountriesService {
                     cca3: country.cca3,
                     borders: country.borders ?? [],
                 }))
-            )
-
-    }
+            );
+    };
 
     getCountriesByCode( borders: string[] ): Observable<SmallCountry[]> {
         if( !borders || borders.length === 0 ) return of([]);
@@ -61,4 +60,4 @@ export class CountriesService {
     }; 
 
 
-}
+};

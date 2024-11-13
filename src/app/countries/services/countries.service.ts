@@ -50,7 +50,7 @@ export class CountriesService {
     };
 
     getCountriesByCode( borders: string[] ): Observable<SmallCountry[]> {
-        if( !borders || borders.length === 0 ) return of([]);
+        if( !borders || borders.length ) return of([]);
         const contryRequests: Observable<SmallCountry>[] = [];
         borders.forEach(code => {
           const request = this.getCountriesByAlphaCode( code );

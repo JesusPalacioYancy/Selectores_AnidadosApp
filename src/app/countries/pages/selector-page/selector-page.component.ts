@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountriesService } from '../../services/countries.service';
 import { Region, SmallCountry } from '../../interfaces/countries.interface';
-import { filter, switchMap, tap } from 'rxjs';
+import { filter, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-selector-page',
@@ -10,6 +10,8 @@ import { filter, switchMap, tap } from 'rxjs';
 
 })
 export class SelectorPageComponent implements OnInit, OnDestroy{
+
+  private destroy$ = new Subject<void>();
 
   public myForm: FormGroup = this.fb.group({
     reguion: ['', Validators.required],
@@ -37,6 +39,7 @@ export class SelectorPageComponent implements OnInit, OnDestroy{
   onReguionsChanged(): void {
     this.myForm.get('reguion')!.valueChanges
       .pipe(
+        takeUntil(this.destroy$),
         tap(() => this.myForm.get('country')!.setValue('')),
         switchMap((region) => this.countriesService.getCountriesByReguion(region))
       )
@@ -50,6 +53,7 @@ export class SelectorPageComponent implements OnInit, OnDestroy{
   onBordersChanged(): void {
     this.myForm.get('country')!.valueChanges
       .pipe(
+        takeUntil(this.destroy$),
         tap(() => this.myForm.get('border')!.setValue('')),
         filter((value: string) => value.length > 0),
         switchMap((alphaCode) => this.countriesService.getCountriesByAlphaCode(alphaCode)),
@@ -63,8 +67,8 @@ export class SelectorPageComponent implements OnInit, OnDestroy{
 
 
   ngOnDestroy(): void {
-    this.onReguionsChanged();
-    this.onBordersChanged();
+    this.destroy$.next();
+    this.destroy$.complete();
   };
 
 
